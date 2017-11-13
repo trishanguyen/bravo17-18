@@ -1,19 +1,18 @@
 //Red right
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by rootroot on 11/12/17.
  */
 
+@Autonomous(name="AutoRR")
 public class AutonomousRR extends LinearOpMode
 {
     Hardware robot = new Hardware();
-    private static ElapsedTime runtime = new ElapsedTime();
 
-    @Override
     public void runOpMode()
     {
         drive( 1, 10 );
@@ -45,14 +44,12 @@ public class AutonomousRR extends LinearOpMode
 
     }
 
-
-
-
-
-
-
-        /*
-
+    @Override
+    public synchronized void waitForStart() {
+        super.waitForStart();
+    }
+    
+    /*
     public static void omniDrive(double power, byte direction, int time){
         switch (direction) {
             case right:
@@ -153,12 +150,12 @@ public class AutonomousRR extends LinearOpMode
         drive(0,0);
     }
 
-    public static void chersTimer(int time){
+    public static void chersTimer(int time) {
         long startTime = System.currentTimeMillis();
-        while((System.currentTimeMillis() - startTime)<time)
-        {
+        while ((System.currentTimeMillis() - startTime) < time) {
         }
     }
-         */
+    */
+    
 
 }

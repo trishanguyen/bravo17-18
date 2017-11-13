@@ -7,14 +7,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by kevinburns on 11/3/17.
  */
 
-@TeleOp(name="Teleop", group="Autonomous")
+@TeleOp(name="Teleop", group="Linear Opmode")
 public class Teleop extends LinearOpMode
 {
-    Hardware robot   = new Hardware();
+
 
     @Override
     public void runOpMode()
     {
+        Hardware robot   = new Hardware();
         robot.init(hardwareMap);
 
         waitForStart();
