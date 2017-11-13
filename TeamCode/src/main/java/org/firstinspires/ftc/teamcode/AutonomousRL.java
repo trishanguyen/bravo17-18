@@ -1,3 +1,4 @@
+//Red left
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Created by rootroot on 11/12/17.
  */
 
-public class AutonomousRT extends LinearOpMode
+public class AutonomousRL extends LinearOpMode
 {
     Hardware robot   = new Hardware();
     @Override

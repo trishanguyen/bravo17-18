@@ -20,24 +20,26 @@ public class Teleop extends LinearOpMode
         waitForStart();
         while(opModeIsActive())
         {
-            if(gamepad1.right_stick_x != 0){//turn
-                robot.MotorFR.setPower(gamepad1.right_stick_x);
-                robot.MotorBR.setPower(gamepad1.right_stick_x);
-                robot.MotorFL.setPower(-gamepad1.right_stick_x);
-                robot.MotorBL.setPower(-gamepad1.right_stick_x);
-            }
+            //turn
+            robot.MotorFR.setPower(gamepad1.right_stick_x);
+            robot.MotorBR.setPower(gamepad1.right_stick_x);
+            robot.MotorFL.setPower(-gamepad1.right_stick_x);
+            robot.MotorBL.setPower(-gamepad1.right_stick_x);
 
-            else
-            {//forward and backward
-                robot.MotorFR.setPower(gamepad1.left_stick_y);
-                robot.MotorBR.setPower(gamepad1.left_stick_y);
-                robot.MotorFL.setPower(gamepad1.left_stick_y);
-                robot.MotorBL.setPower(gamepad1.left_stick_y);
-            }
+            //forward and backward
+            robot.MotorFR.setPower(gamepad1.left_stick_y);
+            robot.MotorBR.setPower(gamepad1.left_stick_y);
+            robot.MotorFL.setPower(gamepad1.left_stick_y);
+            robot.MotorBL.setPower(gamepad1.left_stick_y);
 
             telemetry.addData("X", gamepad1.right_stick_x);
             telemetry.addData("Y", gamepad1.left_stick_y);
             telemetry.update();
+
         }
+
+
+
+
     }
 }
