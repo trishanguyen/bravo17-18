@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Hardware {
+public class Hardware
+{
     public DcMotor MotorFL;
     public DcMotor MotorBL;
     public DcMotor MotorFR;
@@ -17,12 +18,14 @@ public class Hardware {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Hardware(){
+    public Hardware()
+    {
 
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap)
+    {
         // Save reference to Hardware map
         hwMap = ahwMap;
 

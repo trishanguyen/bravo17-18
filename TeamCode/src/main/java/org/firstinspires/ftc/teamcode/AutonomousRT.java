@@ -6,10 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Created by rootroot on 11/12/17.
  */
 
-public class AutonomousRT extends LinearOpMode{
+public class AutonomousRT extends LinearOpMode
+{
     Hardware robot   = new Hardware();
     @Override
-    public void runOpMode(){
+    public void runOpMode()
+    {
 
     }
 }
