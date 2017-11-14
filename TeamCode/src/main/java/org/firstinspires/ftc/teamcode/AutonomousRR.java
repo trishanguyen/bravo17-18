@@ -40,8 +40,7 @@ public class AutonomousRR extends LinearOpMode
         stopDriving();
     }
 
-    public void stopDriving()
-    {
+    public void stopDriving() {
         robot.MotorBL.setPower(0);
         robot.MotorBR.setPower(0);
         robot.MotorFL.setPower(0);
