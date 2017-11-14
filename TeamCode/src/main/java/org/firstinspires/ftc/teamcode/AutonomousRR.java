@@ -1,165 +1,158 @@
-//Red right
+//Red left
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-/**
- * Created by rootroot on 11/12/17.
- */
-
-@Autonomous(name="AutoRR")
+@Autonomous( name = "AutoRR" )
 public class AutonomousRR extends LinearOpMode
 {
-    Hardware robot = new Hardware();
+    DcMotor motorFR = null, motorFL = null, motorBR = null, motorBL = null;
 
-    public void runOpMode()
-    {
-        drive( 1, 10 );
-    }
+    double DRIVE_POWER = 1.0;
+    private ElapsedTime period  = new ElapsedTime();
 
-
-    public void drive(double power, int time)
-    {
-        robot.MotorBL.setPower(power);
-        robot.MotorBR.setPower(power);
-        robot.MotorFL.setPower(power);
-        robot.MotorFR.setPower(power);
-
-
-        long startTime = System.currentTimeMillis();
-        while((System.currentTimeMillis() - startTime) < time)
-        {
-        }
-
-        stopDriving();
-    }
-
-    public void stopDriving() {
-        robot.MotorBL.setPower(0);
-        robot.MotorBR.setPower(0);
-        robot.MotorFL.setPower(0);
-        robot.MotorFR.setPower(0);
-
-    }
 
     @Override
-    public synchronized void waitForStart() {
-        super.waitForStart();
-    }
-    
-    /*
-    public static void omniDrive(double power, byte direction, int time){
-        switch (direction) {
-            case right:
-                MOne.setPower(-power);
-                MTwo.setPower(power);
-                MThree.setPower(power);
-                MFour.setPower(-power);
-                break;
-            case left:
-                MOne.setPower(power);
-                MTwo.setPower(-power);
-                MThree.setPower(-power);
-                MFour.setPower(power);
-                break;
-            case forward:
-                MOne.setPower(power);
-                MTwo.setPower(power);
-                MThree.setPower(-power);
-                MFour.setPower(-power);
-                break;
-            case backward:
-                MOne.setPower(-power);
-                MTwo.setPower(-power);
-                MThree.setPower(power);
-                MFour.setPower(power);
-                break;
-            case dRF:
-                MOne.setPower(0);
-                MTwo.setPower(power);
-                MThree.setPower(0);
-                MFour.setPower(-power);
-                break;
-            case dRB:
-                MOne.setPower(0);
-                MTwo.setPower(-power);
-                MThree.setPower(0);
-                MFour.setPower(power);
-                break;
-            case dLF:
-                MOne.setPower(power);
-                MTwo.setPower(0);
-                MThree.setPower(-power);
-                MFour.setPower(0);
-                break;
-            case dLB:
-                MOne.setPower(-power);
-                MTwo.setPower(0);
-                MThree.setPower(power);
-                MFour.setPower(0);
-                break;
+    public void runOpMode()
+    {
 
-            default:return;
 
+        motorFR = hardwareMap.dcMotor.get( "motorFR" );
+        motorFL = hardwareMap.dcMotor.get( "motorFL" );
+
+        motorFL.setMode( DcMotor.RunMode.RUN_WITHOUT_ENCODER );
+        motorFR.setMode( DcMotor.RunMode.RUN_WITHOUT_ENCODER );
+
+        motorFL.setDirection( DcMotor.Direction.REVERSE );
+
+        waitForStart();
+
+
+        DriveForward( DRIVE_POWER);
+        try
+        {
+            Thread.sleep(4000);
         }
-        chersTimer(time);
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
+
+        TurnLeft( DRIVE_POWER );
+
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
+
+        DriveForward(DRIVE_POWER );
+        try
+        {
+            Thread.sleep(4000);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
+
+        TurnRight( DRIVE_POWER );
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
+
+        DriveForward(DRIVE_POWER );
+        try
+        {
+            Thread.sleep(4000);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
+
+        StopDriving();
+
     }
 
-    public static void drive(double power, int time)
+
+    //Doesn't work for some reason rn bc of the exception stuff
+    public void DriveForwardTime( double power, long time ) throws InterruptedException
     {
-        MOne.setPower(power);
-        MTwo.setPower(power);
-        MThree.setPower(power);
-        MFour.setPower(power);
+        DriveForward( power );
+        try
+        {
+            Thread.sleep(4000);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
 
-        chersTimer(time);
-
-        stopDriving();
     }
 
-    //for the turn functionS, get rid of time parameter and replace with set time, for 90 degree rotation
-    public static void turnLeft(double power, int time)
+
+    public void DriveForward( double power )
     {
-
-        MOne.setPower(-power);
-        MTwo.setPower(-power);
-        MThree.setPower(power);
-        MFour.setPower(power);
-
-        chersTimer(time);
-        stopDriving();
+        motorFL.setPower( power );
+        motorFR.setPower( power );
     }
 
-    public static void turnRight(double power, int time)
+    public void StopDriving()
     {
-
-        MOne.setPower(power);
-        MTwo.setPower(power);
-        MThree.setPower(-power);
-        MFour.setPower(-power);
-
-
-        chersTimer(time);
-        stopDriving();
+        DriveForward( 0 );
     }
 
-    public static void stopDriving()
+    public void TurnLeft( double power )
     {
-        drive(0,0);
+        motorFL.setPower( -power );
+        motorFR.setPower( power );
     }
 
-    public static void chersTimer(int time) {
-        long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime) < time) {
+    public void TurnLeftTime( double power, long time ) throws InterruptedException
+    {
+        TurnLeft( power );
+
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
         }
     }
-    */
-    
+
+    public void TurnRight( double power )
+    {
+        TurnLeft( -power );
+    }
+
+    public void TurnRightTime( double power, long time ) throws InterruptedException
+    {
+        TurnRight( power );
+
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+            telemetry.addData("ERROR", e.getStackTrace()[0]);
+        }
+    }
+
 
 }
