@@ -16,8 +16,9 @@ import com.qualcomm.robotcore.util.Range;
 public class Teleop extends LinearOpMode {
 
     Hardware robot = new Hardware();
-    byte power = 1;
+    double power = 1;
     int direction = 0;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -29,26 +30,36 @@ public class Teleop extends LinearOpMode {
 
         while( opModeIsActive() )
         {
-            if(gamepad1.right_stick_x > 0 && gamepad1.right_stick_y > 0){
+            if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0){
                 direction = Hardware.dRF;
-            } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0){
+            } else if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0){
                 direction = Hardware.dLF;
-            } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y < 0) {
+            } else if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0) {
                 direction = Hardware.dLB;
-            } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0){
+            } else if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0){
                 direction = Hardware.dRB;
             } else if (gamepad1.right_stick_x > 0) {
                 direction = Hardware.right;
             } else if (gamepad1.right_stick_x < 0) {
                 direction = Hardware.left;
-            } else if (gamepad1.right_stick_y > 0) {
+            } else if (gamepad1.left_stick_y > 0) {
                 direction = Hardware.forward;
-            } else if (gamepad1.right_stick_y < 0){
+            } else if (gamepad1.left_stick_y < 0){
                 direction = Hardware.backward;
+            } else if (gamepad1.dpad_left){
+                direction = Hardware.turnCC;
+            } else if (gamepad1.dpad_right){
+                direction = Hardware.turnC;
             } else {
                 direction = 0;
             }
-            robot.omniDrive(power,direction );
+            if (gamepad1.a){
+                power = 1;
+            }  else if (gamepad1.b){
+                power = .5;
+            }
+
+            robot.omniDrive(power,direction);
 
 //            motorFL.setPower( gamepad1.left_stick_y );
 //            motorFR.setPower( gamepad1.right_stick_y );

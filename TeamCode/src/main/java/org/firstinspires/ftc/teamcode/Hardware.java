@@ -29,6 +29,8 @@ public class Hardware extends LinearOpMode
     public static final int dLF = 7;
     // Diagonal Left Backward
     public static final int dLB = 8;
+    public static final int turnC = 9;
+    public static final int turnCC = 10;
     private  byte direction;
     private double power;
     private double startTime = getRuntime();
@@ -167,7 +169,18 @@ public class Hardware extends LinearOpMode
                 MotorFR.setPower(power);
                 MotorBR.setPower(0);
                 break;
-
+            case turnC:
+                MotorFL.setPower(power);
+                MotorBL.setPower(power);
+                MotorFR.setPower(power);
+                MotorBR.setPower(power);
+                break;
+            case turnCC:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(-power);
+                break;
             default:
                 MotorBL.setPower(0);
                 MotorBR.setPower(0);
