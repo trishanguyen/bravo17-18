@@ -17,9 +17,21 @@ public class Hardware extends LinearOpMode
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
     public Servo arm;
-
+    public static final int xAxis = 1;
+    public static final int yAxis = 3;
+    public static final int backward = 4;
+    // Diagonal Right Forward
+    public static final int dRF = 5;
+    // Diagonal Right Backward
+    public static final int dRB = 6;
+    // Diagonal Left Forward
+    public static final int dLF = 7;
+    // Diagonal Left Backward
+    public static final int dLB = 8;
+    private  byte direction;
+    private double power;
     private double startTime = getRuntime();
-
+    
     HardwareMap hwMap =  null;
 
     @Override
@@ -100,6 +112,13 @@ public class Hardware extends LinearOpMode
         telemetry.addData("Finished in:", getTime());
     }
 
+    public void omniDrive(double x, double y){
+         /*   MotorFL.setPower(y-x);
+            MotorBL.setPower(x-y);
+            MotorFR.setPower(x-y);
+            MotorBR.setPower(y-x);*/
+
+        }
     /*
     //drives to correct throw dist and returns if done
     boolean driveToDist(double dist){
@@ -116,7 +135,5 @@ public class Hardware extends LinearOpMode
         return false;
     }
     */
-
-
-
 }
+

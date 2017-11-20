@@ -13,20 +13,16 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp( name = "Teleop", group = "Linear Opmode" )
-public class Teleop extends LinearOpMode
-{
+public class Teleop extends LinearOpMode {
 
-    private DcMotor motorFR, motorFL, motorBR, motorBL;
-
-
+    Hardware robot = new Hardware();
+    byte power = 1;
+    int direction;
     @Override
     public void runOpMode() throws InterruptedException
     {
 
-        motorFR = hardwareMap.dcMotor.get( "motorFR" );
-        motorFL = hardwareMap.dcMotor.get( "motorFL" );
 
-        motorFL.setDirection( DcMotor.Direction.REVERSE );
 
 
         waitForStart();
@@ -34,13 +30,12 @@ public class Teleop extends LinearOpMode
         while( opModeIsActive() )
         {
 
-            motorFL.setPower( gamepad1.left_stick_y );
-            motorFR.setPower( gamepad1.right_stick_y );
+              robot.omniDrive(gamepad1.right_stick_x ,gamepad1.left_stick_y );
+//            motorFL.setPower( gamepad1.left_stick_y );
+//            motorFR.setPower( gamepad1.right_stick_y );
 
             idle();
         }
-
-
-
     }
 }
+
