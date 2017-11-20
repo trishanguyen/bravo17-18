@@ -17,8 +17,9 @@ public class Hardware extends LinearOpMode
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
     public Servo arm;
-    public static final int xAxis = 1;
-    public static final int yAxis = 3;
+    public static final int right = 1;
+    public static final int left = 2;
+    public static final int forward = 3;
     public static final int backward = 4;
     // Diagonal Right Forward
     public static final int dRF = 5;
@@ -31,7 +32,7 @@ public class Hardware extends LinearOpMode
     private  byte direction;
     private double power;
     private double startTime = getRuntime();
-    
+
     HardwareMap hwMap =  null;
 
     @Override
@@ -112,13 +113,69 @@ public class Hardware extends LinearOpMode
         telemetry.addData("Finished in:", getTime());
     }
 
-    public void omniDrive(double x, double y){
+    public void omniDrive(double power, int direction){
          /*   MotorFL.setPower(y-x);
             MotorBL.setPower(x-y);
             MotorFR.setPower(x-y);
             MotorBR.setPower(y-x);*/
+        switch (direction) {
+            case right:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(power);
+                MotorFR.setPower(power);
+                MotorBR.setPower(-power);
+                break;
+            case left:
+                MotorFL.setPower(power);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(power);
+                break;
+            case forward:
+                MotorFL.setPower(power);
+                MotorBL.setPower(power);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(-power);
+                break;
+            case backward:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(power);
+                MotorBR.setPower(power);
+                break;
+            case dRF:
+                MotorFL.setPower(0);
+                MotorBL.setPower(power);
+                MotorFR.setPower(0);
+                MotorBR.setPower(-power);
+                break;
+            case dRB:
+                MotorFL.setPower(0);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(0);
+                MotorBR.setPower(power);
+                break;
+            case dLF:
+                MotorFL.setPower(power);
+                MotorBL.setPower(0);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(0);
+                break;
+            case dLB:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(0);
+                MotorFR.setPower(power);
+                MotorBR.setPower(0);
+                break;
+
+            default:
+                MotorBL.setPower(0);
+                MotorBR.setPower(0);
+                MotorFL.setPower(0);
+                MotorFR.setPower(0);
 
         }
+    }
     /*
     //drives to correct throw dist and returns if done
     boolean driveToDist(double dist){

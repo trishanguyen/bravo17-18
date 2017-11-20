@@ -17,7 +17,7 @@ public class Teleop extends LinearOpMode {
 
     Hardware robot = new Hardware();
     byte power = 1;
-    int direction;
+    int direction = 0;
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -29,8 +29,27 @@ public class Teleop extends LinearOpMode {
 
         while( opModeIsActive() )
         {
+            if(gamepad1.right_stick_x > 0 && gamepad1.right_stick_y > 0){
+                direction = Hardware.dRF;
+            } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0){
+                direction = Hardware.dLF;
+            } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y < 0) {
+                direction = Hardware.dLB;
+            } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0){
+                direction = Hardware.dRB;
+            } else if (gamepad1.right_stick_x > 0) {
+                direction = Hardware.right;
+            } else if (gamepad1.right_stick_x < 0) {
+                direction = Hardware.left;
+            } else if (gamepad1.right_stick_y > 0) {
+                direction = Hardware.forward;
+            } else if (gamepad1.right_stick_y < 0){
+                direction = Hardware.backward;
+            } else {
+                direction = 0;
+            }
+            robot.omniDrive(power,direction );
 
-              robot.omniDrive(gamepad1.right_stick_x ,gamepad1.left_stick_y );
 //            motorFL.setPower( gamepad1.left_stick_y );
 //            motorFR.setPower( gamepad1.right_stick_y );
 
