@@ -16,8 +16,10 @@ import com.qualcomm.robotcore.util.Range;
 public class Teleop extends LinearOpMode {
 
     Hardware robot = new Hardware();
+
     double power = 1;
     int direction = 0;
+
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -25,7 +27,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-
+    robot.initHardware();
         waitForStart();
 
         while( opModeIsActive() )
