@@ -60,7 +60,9 @@ public class Teleop extends LinearOpMode {
             }  else if (gamepad1.b){
                 power = .5;
             }
-
+            if (gamepad1.x){
+                robot.closeGripper();
+            }
             robot.omniDrive(power,direction);
 
 //            motorFL.setPower( gamepad1.left_stick_y );
