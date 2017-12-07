@@ -16,7 +16,7 @@ public class Hardware extends LinearOpMode
 
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
-    public Servo arm;
+    public Servo armL,armR;
     public static final int right = 1;
     public static final int left = 2;
     public static final int forward = 3;
@@ -33,9 +33,10 @@ public class Hardware extends LinearOpMode
     public static final int turnCC = 10;
     private  byte direction;
     private double power;
+    private boolean closed = true;
     private double startTime = getRuntime();
 
-    HardwareMap hwMap =  null;
+    HardwareMap   hwMap =  null;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -54,16 +55,21 @@ public class Hardware extends LinearOpMode
             MotorBL = hwMap.dcMotor.get("blmotor");
             MotorFR = hwMap.dcMotor.get("frmotor");
             MotorBR = hwMap.dcMotor.get("brmotor");
+            armL = hwMap.servo.get("armL");
+            armR = hwMap.servo.get("armR");
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
             MotorBL.setDirection(DcMotor.Direction.FORWARD);
             MotorFR.setDirection(DcMotor.Direction.REVERSE);
             MotorBR.setDirection(DcMotor.Direction.REVERSE);
+            armL.setDirection(Servo.Direction.FORWARD);
+            armR.setDirection(Servo.Direction.FORWARD);
 
             MotorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         }
 
 
@@ -114,7 +120,18 @@ public class Hardware extends LinearOpMode
     {
         telemetry.addData("Finished in:", getTime());
     }
-
+    public void closeGripper(){
+        if(closed){
+            armR.setPosition(90);
+            armL.setPosition(90);
+            closed = false;
+        }
+        else {
+            armR.setPosition(70);
+            armL.setPosition(110);
+            closed = true;
+        }
+    }
     public void omniDrive(double power, int direction){
          /*   MotorFL.setPower(y-x);
             MotorBL.setPower(x-y);
