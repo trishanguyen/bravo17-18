@@ -17,9 +17,8 @@ public class Hardware extends LinearOpMode
 
     final int degreeError = 2;
 
-
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
-    public Servo armL,armR;
+    public Servo armL,armR,jewel;
     private CRServo elevator;
     public static final int right = 1;
     public static final int left = 2;
@@ -63,7 +62,7 @@ public class Hardware extends LinearOpMode
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
             elevator = hwMap.crservo.get("elevator");
-
+            jewel = hwMap.servo.get("jewel");
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
             MotorBL.setDirection(DcMotor.Direction.FORWARD);
@@ -144,7 +143,9 @@ public class Hardware extends LinearOpMode
         elevator.setPower(power);
 
     }
-
+    public void jewel(double position){
+        jewel.setPosition(position);
+    }
     public void omniDrive(double power, int direction){
          /*   MotorFL.setPower(y-x);
             MotorBL.setPower(x-y);
