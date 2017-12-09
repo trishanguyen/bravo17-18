@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -17,6 +20,7 @@ public class Hardware extends LinearOpMode
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
     public Servo armL,armR;
+    private CRServo elevator;
     public static final int right = 1;
     public static final int left = 2;
     public static final int forward = 3;
@@ -58,6 +62,8 @@ public class Hardware extends LinearOpMode
             MotorBR = hwMap.dcMotor.get("brmotor");
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
+            elevator = hwMap.crservo.get("elevator");
+
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
             MotorBL.setDirection(DcMotor.Direction.FORWARD);
@@ -132,6 +138,11 @@ public class Hardware extends LinearOpMode
             armL.setPosition(.61111);
             closed = true;
         }
+    }
+
+    public void elevator(double power){
+        elevator.setPower(power);
+
     }
 
     public void omniDrive(double power, int direction){

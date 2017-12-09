@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
+import static java.lang.Math.abs;
 
 
 @TeleOp( name = "Teleop", group = "Linear Opmode" )
@@ -62,6 +63,15 @@ public class Teleop extends LinearOpMode {
             }
             if (gamepad1.x){
                 robot.closeGripper();
+            }
+
+            robot.elevator(gamepad2.right_stick_y);
+            if (abs(gamepad1.left_stick_y) > 0 && abs(gamepad1.right_stick_x) > 0){
+                power = (gamepad1.left_stick_y + gamepad1.right_stick_x)/2;
+            }else if (abs(gamepad1.left_stick_y) > 0){
+                power = gamepad1.left_stick_y;
+            } else if (abs(gamepad1.right_stick_x) > 1){
+                power = gamepad1.right_stick_x;
             }
             robot.omniDrive(power,direction);
 
