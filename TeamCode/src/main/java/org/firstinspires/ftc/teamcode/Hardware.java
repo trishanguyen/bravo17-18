@@ -127,16 +127,29 @@ public class Hardware extends LinearOpMode
     }
     public void closeGripper(){
         if(closed ){
-            armR.setPosition(.33);
-            armL.setPosition(.50);
-
+            armR.setPosition(.35);
+            armL.setPosition(.66);
             closed = false;
         }
         else  {
-            armR.setPosition(.80);
-            armL.setPosition(.33);
+            armR.setPosition(.66);
+            armL.setPosition(.35);
+
             closed = true;
         }
+
+        //TEST CODE
+//        if(closed ){
+//            armR.setPosition(.28);
+//            armL.setPosition(.30);
+//            closed = false;
+//        }
+//        else  {
+//            armR.setPosition(.66);
+//            armL.setPosition(.12);
+//
+//            closed = true;
+//        }
     }
 
    /* public void elevator(double power){

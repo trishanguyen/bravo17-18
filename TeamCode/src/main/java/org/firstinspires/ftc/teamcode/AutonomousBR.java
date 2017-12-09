@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous( name = "AutuBR" )
 public class AutonomousBR extends LinearOpMode
 {
+    long time;
     Hardware robot   = new Hardware();
     @Override
     public void runOpMode()
@@ -17,32 +18,15 @@ public class AutonomousBR extends LinearOpMode
         waitForStart();
 
         robot.init(hardwareMap);
-        robot.jewel(1);
-        while (true) {
-            if (robot.scanColor().equals("red")) {
-                robot.omniDrive(1, Hardware.right);
-                try
-                {
-                    Thread.sleep(10);
-                }
-                catch (InterruptedException e)
-                {
-                    telemetry.addData("ERROR", e.getStackTrace()[0]);
-                }
-                break;
-            } else if (robot.scanColor().equals("blue")) {
-                robot.omniDrive(1, Hardware.left);
-                try
-                {
-                    Thread.sleep(10);
-                }
-                catch (InterruptedException e)
-                {
-                    telemetry.addData("ERROR", e.getStackTrace()[0]);
-                }
-                break;
-            }
 
-        }
+        robot.omniDrive(.5,Hardware.backward);
+        time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 1300);
+        robot.omniDrive(.25,Hardware.right);
+        time = System.currentTimeMillis();
+        while(System.currentTimeMillis() < time + 300);
+        robot.omniDrive(0,Hardware.forward);
+
+
     }
 }

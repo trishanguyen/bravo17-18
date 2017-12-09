@@ -50,16 +50,11 @@ public class Teleop extends LinearOpMode {
             } else if (gamepad1.left_stick_y < 0){
                 direction = Hardware.backward;
             } else if (gamepad1.dpad_left){
-                direction = Hardware.turnCC;
-            } else if (gamepad1.dpad_right){
                 direction = Hardware.turnC;
+            } else if (gamepad1.dpad_right){
+                direction = Hardware.turnCC;
             } else {
                 direction = 0;
-            }
-            if (gamepad1.a){
-                power = 1;
-            }  else if (gamepad1.b){
-                power = .5;
             }
             if (gamepad1.x && xReleased){
                 robot.closeGripper();
@@ -70,7 +65,7 @@ public class Teleop extends LinearOpMode {
             }
 
             //robot.elevator(gamepad2.right_stick_y);
-            if (abs(gamepad1.left_stick_y) > 0 && abs(gamepad1.right_stick_x) > 0){
+            if (abs(gamepad1.left_stick_y) > 1 && abs(gamepad1.right_stick_x) > 1){
                 power = (gamepad1.left_stick_y + gamepad1.right_stick_x)/2;
             }else if (abs(gamepad1.left_stick_y) > 1){
                 power = gamepad1.left_stick_y;

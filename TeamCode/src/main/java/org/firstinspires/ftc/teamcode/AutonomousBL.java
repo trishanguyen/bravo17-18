@@ -12,39 +12,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class AutonomousBL extends LinearOpMode
 {
     Hardware robot   = new Hardware();
-
+    long time;
     @Override
     public void runOpMode()
     {
         waitForStart();
 
         robot.init(hardwareMap);
-            robot.jewel(1);
-            while (true) {
-                if (robot.scanColor().equals("red")) {
-                    robot.omniDrive(1, Hardware.right);
-                    try
-                    {
-                        Thread.sleep(10);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        telemetry.addData("ERROR", e.getStackTrace()[0]);
-                    }
-                    break;
-                } else if (robot.scanColor().equals("blue")) {
-                    robot.omniDrive(1, Hardware.left);
-                    try
-                    {
-                        Thread.sleep(10);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        telemetry.addData("ERROR", e.getStackTrace()[0]);
-                    }
-                    break;
-                }
 
-            }
+            robot.omniDrive(.5,Hardware.backward);
+            time = System.currentTimeMillis();
+            while (System.currentTimeMillis() < time + 1400);
+            robot.omniDrive(.25,Hardware.left);
+            time = System.currentTimeMillis();
+            while(System.currentTimeMillis() < time + 2000);
+            robot.omniDrive(0,Hardware.forward);
     }
 }

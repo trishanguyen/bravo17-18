@@ -10,77 +10,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous( name = "AutoRR" )
 public class AutonomousRR extends LinearOpMode
 {
-
+    long time;
     Hardware robot = new Hardware();
     double DRIVE_POWER = 1.0;
     private ElapsedTime period  = new ElapsedTime();
 
 
     @Override
-    public void runOpMode()
-    {
-
-
-
-        waitForStart();
-
-
-        robot.omniDrive( DRIVE_POWER,Hardware.forward);
-        try
-        {
-            Thread.sleep(4000);
-        }
-        catch (InterruptedException e)
-        {
-            telemetry.addData("ERROR", e.getStackTrace()[0]);
-        }
-
-        robot.omniDrive(DRIVE_POWER,Hardware.left);
-
-        try
-        {
-            Thread.sleep(500);
-        }
-        catch (InterruptedException e)
-        {
-            telemetry.addData("ERROR", e.getStackTrace()[0]);
-        }
-
-        robot.omniDrive(DRIVE_POWER,Hardware.forward);
-        try
-        {
-            Thread.sleep(4000);
-        }
-        catch (InterruptedException e)
-        {
-            telemetry.addData("ERROR", e.getStackTrace()[0]);
-        }
-
-        robot.omniDrive(DRIVE_POWER,Hardware.right);
-        try
-        {
-            Thread.sleep(500);
-        }
-        catch (InterruptedException e)
-        {
-            telemetry.addData("ERROR", e.getStackTrace()[0]);
-        }
-
-        robot.omniDrive(DRIVE_POWER,Hardware.forward);
-        try
-        {
-            Thread.sleep(4000);
-        }
-        catch (InterruptedException e)
-        {
-            telemetry.addData("ERROR", e.getStackTrace()[0]);
-        }
-
-        robot.omniDrive(0,0);
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        robot.omniDrive(.5, Hardware.backward);
+        time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 1300) ;
+        robot.omniDrive(.25, Hardware.left);
+        time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 300) ;
+        robot.omniDrive(0, Hardware.forward);
 
     }
-
-
 
 
 }
