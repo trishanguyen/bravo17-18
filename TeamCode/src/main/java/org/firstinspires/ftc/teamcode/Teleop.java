@@ -27,7 +27,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-    robot.initHardware();
+    robot.init(hardwareMap);
         waitForStart();
 
         while( opModeIsActive() )
