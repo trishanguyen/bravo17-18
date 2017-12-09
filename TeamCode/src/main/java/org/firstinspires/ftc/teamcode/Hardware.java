@@ -56,15 +56,15 @@ public class Hardware extends LinearOpMode
             MotorBL = hwMap.dcMotor.get("blmotor");
             MotorFR = hwMap.dcMotor.get("frmotor");
             MotorBR = hwMap.dcMotor.get("brmotor");
-            //armL = hwMap.servo.get("armL");
-            //armR = hwMap.servo.get("armR");
+            armL = hwMap.servo.get("armL");
+            armR = hwMap.servo.get("armR");
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
             MotorBL.setDirection(DcMotor.Direction.FORWARD);
             MotorFR.setDirection(DcMotor.Direction.FORWARD);
             MotorBR.setDirection(DcMotor.Direction.FORWARD);
-            //armL.setDirection(Servo.Direction.FORWARD);
-            //armR.setDirection(Servo.Direction.FORWARD);
+
+
 
             MotorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -122,17 +122,18 @@ public class Hardware extends LinearOpMode
         telemetry.addData("Finished in:", getTime());
     }
     public void closeGripper(){
-     /*   if(closed){
-            armR.setPosition(90);
-            armL.setPosition(90);
+        if(closed){
+            armR.setPosition(.5);
+            armL.setPosition(.5);
             closed = false;
         }
         else {
-            armR.setPosition(70);
-            armL.setPosition(110);
+            armR.setPosition(.38888);
+            armL.setPosition(.61111);
             closed = true;
-        }*/
+        }
     }
+
     public void omniDrive(double power, int direction){
          /*   MotorFL.setPower(y-x);
             MotorBL.setPower(x-y);
