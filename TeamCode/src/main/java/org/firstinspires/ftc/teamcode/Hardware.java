@@ -1,25 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.hitechnic.HiTechnicNxtColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
 
 public class Hardware extends LinearOpMode
 {
 
     final int degreeError = 2;
-
+    //public HiTechnicNxtColorSensor colorSensor;
+    public ColorSensor colorSensor;
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
     public Servo armL,armR,jewel;
-    private CRServo elevator;
+   // private CRServo elevator;
     public static final int right = 1;
     public static final int left = 2;
     public static final int forward = 3;
@@ -55,13 +53,14 @@ public class Hardware extends LinearOpMode
         try
         {
             hwMap = ahwMap;
+            //colorSensor = hwMap.colorSensor.get("color");
             MotorFL = hwMap.dcMotor.get("flmotor");
             MotorBL = hwMap.dcMotor.get("blmotor");
             MotorFR = hwMap.dcMotor.get("frmotor");
             MotorBR = hwMap.dcMotor.get("brmotor");
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
-            elevator = hwMap.crservo.get("elevator");
+            //elevator = hwMap.crservo.get("elevator");
             jewel = hwMap.servo.get("jewel");
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
@@ -127,24 +126,34 @@ public class Hardware extends LinearOpMode
         telemetry.addData("Finished in:", getTime());
     }
     public void closeGripper(){
-        if(closed){
-            armR.setPosition(.5);
-            armL.setPosition(.5);
+        if(closed ){
+            armR.setPosition(.33);
+            armL.setPosition(.50);
+
             closed = false;
         }
-        else {
-            armR.setPosition(.38888);
-            armL.setPosition(.61111);
+        else  {
+            armR.setPosition(.80);
+            armL.setPosition(.33);
             closed = true;
         }
     }
 
-    public void elevator(double power){
+   /* public void elevator(double power){
         elevator.setPower(power);
 
-    }
+    }*/
     public void jewel(double position){
         jewel.setPosition(position);
+    }
+    public String scanColor(){
+        if (colorSensor.blue() > 100){
+            return "blue";
+        }
+        else if (colorSensor.red() > 100){
+            return "red";
+        }
+        else return null;
     }
     public void omniDrive(double power, int direction){
          /*   MotorFL.setPower(y-x);

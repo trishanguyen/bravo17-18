@@ -21,7 +21,7 @@ public class Teleop extends LinearOpMode {
     double power = 1;
     int direction = 0;
 
-
+    boolean xReleased = true;
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -61,14 +61,18 @@ public class Teleop extends LinearOpMode {
             }  else if (gamepad1.b){
                 power = .5;
             }
-            if (gamepad1.x){
+            if (gamepad1.x && xReleased){
                 robot.closeGripper();
+                xReleased = false;
+            }
+            if (!gamepad1.x){
+                xReleased = true;
             }
 
-            robot.elevator(gamepad2.right_stick_y);
+            //robot.elevator(gamepad2.right_stick_y);
             if (abs(gamepad1.left_stick_y) > 0 && abs(gamepad1.right_stick_x) > 0){
                 power = (gamepad1.left_stick_y + gamepad1.right_stick_x)/2;
-            }else if (abs(gamepad1.left_stick_y) > 0){
+            }else if (abs(gamepad1.left_stick_y) > 1){
                 power = gamepad1.left_stick_y;
             } else if (abs(gamepad1.right_stick_x) > 1){
                 power = gamepad1.right_stick_x;
