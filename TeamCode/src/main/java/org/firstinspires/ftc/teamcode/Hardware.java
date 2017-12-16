@@ -60,8 +60,8 @@ public class Hardware extends LinearOpMode
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
             //elevator = hwMap.crservo.get("elevator");
-            jewelArm = hwMap.servo.get("jewel");
-            hwMap.colorSensor.get("colorSensor");
+            jewelArm = hardwareMap.servo.get("jewel");
+           // colorSensor = hwMap.colorSensor.get("colorSensor");
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
             MotorBL.setDirection(DcMotor.Direction.FORWARD);
@@ -115,12 +115,12 @@ public class Hardware extends LinearOpMode
         //TEST CODE
         if(closed ){
             armR.setPosition(.28);
-//            armL.setPosition(.30);
+            armL.setPosition(.30);
             closed = false;
         }
         else  {
             armR.setPosition(.66);
-//            armL.setPosition(.12);
+            armL.setPosition(.12);
 
             closed = true;
         }
@@ -303,15 +303,15 @@ public class Hardware extends LinearOpMode
     }
 
     public void toggleColorSensorArm(){
-//        if (jewelArmDown) {
-//            jewelArm.setPosition(1);
-//            jewelArmDown = false;
-//        } else {
-//            jewelArm.setPosition(0);
-//            //while (jewelArm.getPosition() != 0);
-//            jewelArmDown = true;
-//        }
-        jewelArm.setPosition(.9);
+          if (jewelArmDown) {
+              jewelArm.setPosition(1);
+              jewelArmDown = false;
+          } else {
+            jewelArm.setPosition(0);
+            while (jewelArm.getPosition() != 0);
+            jewelArmDown = true;
+        }
+        //jewelArm.setPosition(.9);
     }
     /*
     //drives to correct throw dist and returns if done

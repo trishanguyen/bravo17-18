@@ -2,15 +2,25 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by ad on 12/12/17.
  */
-@Autonomous( name = "test" )
+@TeleOp( name = "Test", group = "Linear Opmode" )
 public class test extends LinearOpMode {
-    Hardware robot = new Hardware();
+
+    public Servo jewelArm;
+
     public void runOpMode(){
-        robot.init(hardwareMap);
-        robot.jewelArm.setPosition(.5);
+
+        jewelArm = hardwareMap.servo.get("jewel");
+        waitForStart();
+
+        while( opModeIsActive() ) {
+            jewelArm.setPosition(0.5);
+        }
     }
 }
