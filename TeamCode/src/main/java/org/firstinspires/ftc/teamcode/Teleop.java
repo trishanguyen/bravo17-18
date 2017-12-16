@@ -23,7 +23,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-    robot.init(hardwareMap);
+        robot.init(hardwareMap);
         waitForStart();
 
         while( opModeIsActive() )
@@ -67,6 +67,15 @@ public class Teleop extends LinearOpMode {
             }
             if (!gamepad1.a){
                 xReleased = true;
+            }
+
+
+            if (gamepad1.b && bReleased){
+                robot.toggleColorSensorArm();
+                bReleased = false;
+            }
+            if (!gamepad1.b){
+                bReleased = true;
             }
 
 

@@ -19,13 +19,18 @@ public class AutonomousRR extends LinearOpMode
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.omniDrive(.5, Hardware.backward);
-        time = System.currentTimeMillis();
-        while (System.currentTimeMillis() < time + 1300) ;
-        robot.omniDrive(.25, Hardware.left);
-        time = System.currentTimeMillis();
-        while (System.currentTimeMillis() < time + 300) ;
-        robot.omniDrive(0, Hardware.forward);
+        robot.toggleColorSensorArm();
+
+        if(robot.detectColor().equals("red")){
+            robot.omniDrive(.2,Hardware.right,100);
+        } else if (robot.detectColor().equals("blue")){
+            robot.omniDrive(.2,Hardware.left,100);
+        } else if (robot.detectColor().equals("Color not found")){
+
+        }
+        robot.omniDrive(.5, Hardware.backward, 1300);
+        robot.omniDrive(.25, Hardware.left,300);
+
 
     }
 

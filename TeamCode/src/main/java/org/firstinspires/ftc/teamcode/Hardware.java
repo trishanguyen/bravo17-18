@@ -4,6 +4,7 @@ import com.qualcomm.hardware.hitechnic.HiTechnicNxtColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,12 +12,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Hardware extends LinearOpMode
 {
-
-    final int degreeError = 2;
     //public HiTechnicNxtColorSensor colorSensor;
     public ColorSensor colorSensor;
-    public DcMotor MotorFL, MotorBL, MotorFR, MotorBR;
-    public Servo armL,armR,jewel;
+
+    public DcMotor MotorFL, MotorBL, MotorFR, MotorBR, ElevatorMotor;
+    public Servo armL,armR,jewelArm;
    // private CRServo elevator;
     public static final int right = 1;
     public static final int left = 2;
@@ -32,9 +32,7 @@ public class Hardware extends LinearOpMode
     public static final int dLB = 8;
     public static final int turnC = 9;
     public static final int turnCC = 10;
-    private  byte direction;
-    private double power;
-    private boolean closed = true;
+    private boolean closed = true, jewelArmDown = true;
     private double startTime = getRuntime();
 
     HardwareMap   hwMap =  null;
@@ -58,23 +56,25 @@ public class Hardware extends LinearOpMode
             MotorBL = hwMap.dcMotor.get("blmotor");
             MotorFR = hwMap.dcMotor.get("frmotor");
             MotorBR = hwMap.dcMotor.get("brmotor");
+            ElevatorMotor = hwMap.dcMotor.get("elevatormotor");
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
             //elevator = hwMap.crservo.get("elevator");
-            jewel = hwMap.servo.get("jewel");
+            jewelArm = hwMap.servo.get("jewel");
+            hwMap.colorSensor.get("colorSensor");
 
             MotorFL.setDirection(DcMotor.Direction.FORWARD);
             MotorBL.setDirection(DcMotor.Direction.FORWARD);
             MotorFR.setDirection(DcMotor.Direction.FORWARD);
             MotorBR.setDirection(DcMotor.Direction.FORWARD);
-
+            ElevatorMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
             MotorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             MotorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+            ElevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
 
@@ -84,31 +84,14 @@ public class Hardware extends LinearOpMode
         }
     }
 
-    void setTime()
-    {
-        startTime = this.getRuntime();
-    }
+
 
     double getTime()
     {
         return getRuntime() - startTime;
     }
 
-    void setPower( float power )
-    {
-        MotorFL.setPower( -power );
-        MotorBL.setPower( -power );
-        MotorFR.setPower( -power );
-        MotorBR.setPower( -power );
-    }
 
-    void setPower( float left, float right )
-    {
-        MotorFL.setPower( -left );
-        MotorBL.setPower( -left );
-        MotorFR.setPower( -right );
-        MotorBR.setPower( -right );
-    }
 
     float scaleInput(float input)
     {
@@ -125,40 +108,26 @@ public class Hardware extends LinearOpMode
     {
         telemetry.addData("Finished in:", getTime());
     }
+
     public void closeGripper(){
+//)
+
+        //TEST CODE
         if(closed ){
-            armR.setPosition(.35);
-            armL.setPosition(.66);
+            armR.setPosition(.28);
+//            armL.setPosition(.30);
             closed = false;
         }
         else  {
             armR.setPosition(.66);
-            armL.setPosition(.35);
+//            armL.setPosition(.12);
 
             closed = true;
         }
-
-        //TEST CODE
-//        if(closed ){
-//            armR.setPosition(.28);
-//            armL.setPosition(.30);
-//            closed = false;
-//        }
-//        else  {
-//            armR.setPosition(.66);
-//            armL.setPosition(.12);
-//
-//            closed = true;
-//        }
     }
 
-   /* public void elevator(double power){
-        elevator.setPower(power);
 
-    }*/
-    public void jewel(double position){
-        jewel.setPosition(position);
-    }
+
     public String scanColor(){
         if (colorSensor.blue() > 100){
             return "blue";
@@ -168,7 +137,9 @@ public class Hardware extends LinearOpMode
         }
         else return null;
     }
-    public void omniDrive(double power, int direction){
+
+    public void omniDrive(double power, int direction)
+    {
          /*   MotorFL.setPower(y-x);
             MotorBL.setPower(x-y);
             MotorFR.setPower(x-y);
@@ -241,6 +212,106 @@ public class Hardware extends LinearOpMode
                 MotorFR.setPower(0);
 
         }
+    }
+
+    public void omniDrive(double power, int direction, int time)
+    {
+        long startTime;
+        startTime = System.currentTimeMillis();
+        switch (direction) {
+            case right:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(power);
+                MotorFR.setPower(power);
+                MotorBR.setPower(-power);
+                break;
+            case left:
+                MotorFL.setPower(power);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(power);
+                break;
+            case forward:
+                MotorFL.setPower(power);
+                MotorBL.setPower(power);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(-power);
+                break;
+            case backward:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(power);
+                MotorBR.setPower(power);
+                break;
+            case dRF:
+                MotorFL.setPower(0);
+                MotorBL.setPower(power);
+                MotorFR.setPower(0);
+                MotorBR.setPower(-power);
+                break;
+            case dRB:
+                MotorFL.setPower(0);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(0);
+                MotorBR.setPower(power);
+                break;
+            case dLF:
+                MotorFL.setPower(power);
+                MotorBL.setPower(0);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(0);
+                break;
+            case dLB:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(0);
+                MotorFR.setPower(power);
+                MotorBR.setPower(0);
+                break;
+            case turnC:
+                MotorFL.setPower(power);
+                MotorBL.setPower(power);
+                MotorFR.setPower(power);
+                MotorBR.setPower(power);
+                break;
+            case turnCC:
+                MotorFL.setPower(-power);
+                MotorBL.setPower(-power);
+                MotorFR.setPower(-power);
+                MotorBR.setPower(-power);
+                break;
+            default:
+                MotorBL.setPower(0);
+                MotorBR.setPower(0);
+                MotorFL.setPower(0);
+                MotorFR.setPower(0);
+
+        }
+        while (System.currentTimeMillis() < startTime + time) ;
+        MotorBL.setPower(0);
+        MotorBR.setPower(0);
+        MotorFL.setPower(0);
+        MotorFR.setPower(0);
+    }
+
+    public String detectColor(){
+        if (colorSensor.red() > 100){
+            return "red";
+        } else if (colorSensor.blue() > 100){
+            return "blue";
+        }
+        return "Color not found";
+    }
+
+    public void toggleColorSensorArm(){
+//        if (jewelArmDown) {
+//            jewelArm.setPosition(1);
+//            jewelArmDown = false;
+//        } else {
+//            jewelArm.setPosition(0);
+//            //while (jewelArm.getPosition() != 0);
+//            jewelArmDown = true;
+//        }
+        jewelArm.setPosition(.9);
     }
     /*
     //drives to correct throw dist and returns if done
