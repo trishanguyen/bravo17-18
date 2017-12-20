@@ -24,7 +24,7 @@ public class AutonomousRL extends LinearOpMode
 
         robot.init(hardwareMap);
 
-        //I love Cher she is the best
+
         long startTime = currentTimeMillis();
         ColorSensor color = hardwareMap.colorSensor.get("colorSensor");
         Servo jewelArm  = hardwareMap.servo.get("jewel");

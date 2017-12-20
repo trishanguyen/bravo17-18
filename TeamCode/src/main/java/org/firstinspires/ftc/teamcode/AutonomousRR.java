@@ -30,8 +30,9 @@ public class AutonomousRR extends LinearOpMode
         color = hardwareMap.colorSensor.get("colorSensor");
         waitForStart();
 
+        jewelArm.setPosition(.5);
+        jewelArm.setPosition(.25);
         jewelArm.setPosition(0);
-
 //        if(robot.detectColor().equals("red"))
 // {
 //            robot.omniDrive(.2,Hardware.right,100);
@@ -50,7 +51,7 @@ public class AutonomousRR extends LinearOpMode
         long startTime = currentTimeMillis();
 
         while (currentTimeMillis() < startTime + 2000) ;
-        if ( color.red() < color.blue())
+        if ( color.red() < color.blue() )
         {
             robot.omniDrive(.3,Hardware.forward,500);
         }
@@ -60,14 +61,14 @@ public class AutonomousRR extends LinearOpMode
         }
         jewelArm.setPosition(1.2);
 
-//
-//        while(opModeIsActive())
-//        {
-//            telemetry.addData("Red", color.red());
-//            telemetry.addData("Green", color.green());
-//            telemetry.addData("Blue", color.blue());
-//            telemetry.update();
-//        }
+
+        while(opModeIsActive())
+        {
+            telemetry.addData("Red", color.red());
+            telemetry.addData("Green", color.green());
+            telemetry.addData("Blue", color.blue());
+            telemetry.update();
+        }
     }
 
 
