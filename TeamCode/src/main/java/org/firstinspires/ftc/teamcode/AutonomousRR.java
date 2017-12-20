@@ -22,20 +22,24 @@ public class AutonomousRR extends LinearOpMode
     public Servo jewelArm;
     public ColorSensor color;
     @Override
-    public void runOpMode() {
-            robot.init(hardwareMap);
-            jewelArm = hardwareMap.servo.get("jewel");
+    public void runOpMode()
+    {
+        robot.init(hardwareMap);
+        jewelArm  = hardwareMap.servo.get("jewel");
 
         color = hardwareMap.colorSensor.get("colorSensor");
         waitForStart();
 
         jewelArm.setPosition(0);
 
-//        if(robot.detectColor().equals("red")){
+//        if(robot.detectColor().equals("red"))
+// {
 //            robot.omniDrive(.2,Hardware.right,100);
-//        } else if (robot.detectColor().equals("blue")){
+//        } else if (robot.detectColor().equals("blue"))
+// {
 //            robot.omniDrive(.2,Hardware.left,100);
 //        } else if (robot.detectColor().equals("Color not found")){
+
 //
 //        }
 
@@ -44,18 +48,26 @@ public class AutonomousRR extends LinearOpMode
 //        robot.omniDrive(.5, Hardware.backward, 1300);
 //        robot.omniDrive(.25, Hardware.left,300);
         long startTime = currentTimeMillis();
+
         while (currentTimeMillis() < startTime + 2000) ;
-        if ( color.red() > color.blue()){
-            robot.omniDrive(.1,Hardware.forward,500);
-        }else{
-            robot.omniDrive(.1,Hardware.backward,500);
+        if ( color.red() < color.blue())
+        {
+            robot.omniDrive(.3,Hardware.forward,500);
         }
-        while(opModeIsActive()){
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-            telemetry.update();
+        else
+        {
+            robot.omniDrive(.3,Hardware.backward,500);
         }
+        jewelArm.setPosition(1.2);
+
+//
+//        while(opModeIsActive())
+//        {
+//            telemetry.addData("Red", color.red());
+//            telemetry.addData("Green", color.green());
+//            telemetry.addData("Blue", color.blue());
+//            telemetry.update();
+//        }
     }
 
 
