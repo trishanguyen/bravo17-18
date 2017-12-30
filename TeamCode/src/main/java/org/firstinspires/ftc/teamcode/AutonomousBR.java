@@ -12,16 +12,16 @@ import static java.lang.System.currentTimeMillis;
  * Created by rootroot on 11/12/17.
  */
 @Autonomous( name = "AutuBR" )
-public class AutonomousBR extends LinearOpMode
+public class AutonomousBR extends Hardware
 {
     long time;
-    Hardware robot   = new Hardware();
+    
     @Override
     public void runOpMode()
     {
         waitForStart();
 
-        robot.init(hardwareMap);
+        init(hardwareMap);
 
         long startTime = currentTimeMillis();
         ColorSensor color = hardwareMap.colorSensor.get("colorSensor");
@@ -30,21 +30,21 @@ public class AutonomousBR extends LinearOpMode
         while (currentTimeMillis() < startTime + 2000) ;
         if ( color.red() > color.blue())
         {
-            robot.omniDrive(.3,Hardware.backward,500);
+            omniDrive(.3,Hardware.backward,500);
         }
         else
         {
-            robot.omniDrive(.3,Hardware.forward,500);
+            omniDrive(.3,Hardware.forward,500);
         }
         jewelArm.setPosition(1.2);
 
-        robot.omniDrive(.5,Hardware.backward);
+        omniDrive(.5,Hardware.backward);
         time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 1300);
-        robot.omniDrive(.25,Hardware.right);
+        omniDrive(.25,Hardware.right);
         time = System.currentTimeMillis();
         while(System.currentTimeMillis() < time + 300);
-        robot.omniDrive(0,Hardware.forward);
+        omniDrive(0,Hardware.forward);
 
 
     }

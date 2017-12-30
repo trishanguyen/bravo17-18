@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.hardware.hitechnic.HiTechnicNxtColorSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -10,10 +12,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
-public class Hardware extends LinearOpMode
+import static java.lang.System.currentTimeMillis;
+
+public abstract class Hardware extends LinearOpMode
 {
     //public HiTechnicNxtColorSensor colorSensor;
-    public ColorSensor colorSensor;
+    public ColorSensor color;
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR, ElevatorMotor;
     public Servo armL,armR,jewelArm;
@@ -43,8 +47,10 @@ public class Hardware extends LinearOpMode
     }
 
 
-
-
+    public static void chersTimer(int millis){
+        long startTime = currentTimeMillis();
+        while (currentTimeMillis() < startTime + millis) ;
+    }
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap)
     {
@@ -59,6 +65,7 @@ public class Hardware extends LinearOpMode
             ElevatorMotor = hwMap.dcMotor.get("elevatormotor");
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
+            color = hwMap.colorSensor.get("color");
             //elevator = hwMap.crservo.get("elevator");
             jewelArm = hardwareMap.servo.get("jewel");
            // colorSensor = hwMap.colorSensor.get("colorSensor");
@@ -128,15 +135,6 @@ public class Hardware extends LinearOpMode
 
 
 
-    public String scanColor(){
-        if (colorSensor.blue() > 100){
-            return "blue";
-        }
-        else if (colorSensor.red() > 100){
-            return "red";
-        }
-        else return null;
-    }
 
     public void omniDrive(double power, int direction)
     {
@@ -217,7 +215,7 @@ public class Hardware extends LinearOpMode
     public void omniDrive(double power, int direction, int time)
     {
         long startTime;
-        startTime = System.currentTimeMillis();
+        startTime = currentTimeMillis();
         switch (direction) {
             case right:
                 MotorFL.setPower(-power);
@@ -286,7 +284,7 @@ public class Hardware extends LinearOpMode
                 MotorFR.setPower(0);
 
         }
-        while (System.currentTimeMillis() < startTime + time) ;
+        while (currentTimeMillis() < startTime + time) ;
         MotorBL.setPower(0);
         MotorBR.setPower(0);
         MotorFL.setPower(0);
@@ -294,9 +292,9 @@ public class Hardware extends LinearOpMode
     }
 
     public String detectColor(){
-        if (colorSensor.red() > 100){
+        if (color.red() > 100){
             return "red";
-        } else if (colorSensor.blue() > 100){
+        } else if (color.blue() > 100){
             return "blue";
         }
         return "Color not found";

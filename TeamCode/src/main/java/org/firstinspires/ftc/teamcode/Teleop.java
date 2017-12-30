@@ -9,9 +9,9 @@ import static java.lang.Math.abs;
 
 
 @TeleOp( name = "Teleop", group = "Linear Opmode" )
-public class Teleop extends LinearOpMode {
+public class Teleop extends Hardware {
 
-    Hardware robot = new Hardware();
+
 
     double power = 1;
     int direction = 0;
@@ -23,7 +23,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-        robot.init(hardwareMap);
+        init(hardwareMap);
         waitForStart();
 
         while( opModeIsActive() )
@@ -62,7 +62,7 @@ public class Teleop extends LinearOpMode {
                 direction = 0;
             }
             if (gamepad1.a && xReleased){
-                robot.closeGripper();
+                closeGripper();
                 xReleased = false;
             }
             if (!gamepad1.a){
@@ -71,7 +71,7 @@ public class Teleop extends LinearOpMode {
 
 
             if (gamepad1.b && bReleased){
-                robot.toggleColorSensorArm();
+                toggleColorSensorArm();
                 bReleased = false;
             }
             if (!gamepad1.b){
@@ -80,7 +80,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-            //robot.elevator(gamepad2.right_stick_y);
+            //elevator(gamepad2.right_stick_y);
             if (abs(gamepad1.left_stick_y) > 1 && abs(gamepad1.right_stick_x) > 1){
                 power = (gamepad1.left_stick_y + gamepad1.right_stick_x)/2;
             }else if (abs(gamepad1.left_stick_y) > 1){
@@ -88,7 +88,7 @@ public class Teleop extends LinearOpMode {
             } else if (abs(gamepad1.right_stick_x) > 1){
                 power = gamepad1.right_stick_x;
             }
-            robot.omniDrive(power,direction);
+            omniDrive(power,direction);
 
 //            motorFL.setPower( gamepad1.left_stick_y );
 //            motorFR.setPower( gamepad1.right_stick_y );

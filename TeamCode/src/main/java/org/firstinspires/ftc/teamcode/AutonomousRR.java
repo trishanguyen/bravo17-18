@@ -12,10 +12,10 @@ import static java.lang.System.currentTimeMillis;
 
 
 @Autonomous( name = "AutoRR" )
-public class AutonomousRR extends LinearOpMode
+public class AutonomousRR extends Hardware
 {
     long time;
-    Hardware robot = new Hardware();
+    
     double DRIVE_POWER = 1.0;
     private ElapsedTime period  = new ElapsedTime();
 
@@ -24,7 +24,7 @@ public class AutonomousRR extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        robot.init(hardwareMap);
+        init();
         jewelArm  = hardwareMap.servo.get("jewel");
 
         color = hardwareMap.colorSensor.get("colorSensor");
@@ -33,31 +33,31 @@ public class AutonomousRR extends LinearOpMode
         jewelArm.setPosition(.5);
         jewelArm.setPosition(.25);
         jewelArm.setPosition(0);
-//        if(robot.detectColor().equals("red"))
+//        if(detectColor().equals("red"))
 // {
-//            robot.omniDrive(.2,Hardware.right,100);
-//        } else if (robot.detectColor().equals("blue"))
+//            omniDrive(.2,Hardware.right,100);
+//        } else if (detectColor().equals("blue"))
 // {
-//            robot.omniDrive(.2,Hardware.left,100);
-//        } else if (robot.detectColor().equals("Color not found")){
+//            omniDrive(.2,Hardware.left,100);
+//        } else if (detectColor().equals("Color not found")){
 
 //
 //        }
 
 
 
-//        robot.omniDrive(.5, Hardware.backward, 1300);
-//        robot.omniDrive(.25, Hardware.left,300);
+//        omniDrive(.5, Hardware.backward, 1300);
+//        omniDrive(.25, Hardware.left,300);
         long startTime = currentTimeMillis();
 
         while (currentTimeMillis() < startTime + 2000) ;
         if ( color.red() < color.blue() )
         {
-            robot.omniDrive(.3,Hardware.forward,500);
+            omniDrive(.3,Hardware.forward,500);
         }
         else
         {
-            robot.omniDrive(.3,Hardware.backward,500);
+            omniDrive(.3,Hardware.backward,500);
         }
         jewelArm.setPosition(1.2);
 
@@ -67,6 +67,7 @@ public class AutonomousRR extends LinearOpMode
             telemetry.addData("Red", color.red());
             telemetry.addData("Green", color.green());
             telemetry.addData("Blue", color.blue());
+
             telemetry.update();
         }
     }
