@@ -13,16 +13,22 @@ import static java.lang.System.currentTimeMillis;
  * Created by ad on 12/12/17.
  */
 @TeleOp( name = "Test", group = "Linear Opmode" )
-public class test extends LinearOpMode {
+public class test extends Hardware {
     DcMotor elevatorMotor;
+    Servo armL, armR;
     public void runOpMode(){
         
         elevatorMotor = hardwareMap.dcMotor.get("elevatormotor");
+        armL = hardwareMap.servo.get( "armL");
+        armR = hardwareMap.servo.get( "armR");
+
         waitForStart();
 
-        elevatorMotor.setPower(1);
-        Hardware.chersTimer(500);
-        elevatorMotor.setPower(0);
+
+
+        closeGripper();
+
+
         //        long startTime = currentTimeMillis();
 //        jewelArm.setPosition(.5);
 //        jewelArm.setPosition(.25);
