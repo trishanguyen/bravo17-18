@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import static java.lang.System.currentTimeMillis;
 
-public class Hardware extends LinearOpMode
+public abstract class Hardware extends LinearOpMode
 {
     //public HiTechnicNxtColorSensor colorSensor;
     public ColorSensor color;
