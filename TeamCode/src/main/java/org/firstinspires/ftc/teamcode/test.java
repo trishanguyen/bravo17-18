@@ -13,7 +13,7 @@ import static java.lang.System.currentTimeMillis;
  * Created by ad on 12/12/17.
  */
 @TeleOp( name = "Test", group = "Linear Opmode" )
-public class test extends Hardware
+public class test extends LinearOpMode
 {
     DcMotor elevatorMotor;
     Servo armL, armR;
@@ -21,24 +21,16 @@ public class test extends Hardware
     boolean xReleased = true;
     public void runOpMode()
     {
-        init(hardwareMap);
-        waitForStart();
-
-        long startTime = currentTimeMillis();
 
         Servo armR = hardwareMap.servo.get("armR");
         Servo armL = hardwareMap.servo.get("armL");
-
-        if (gamepad1.a && xReleased)
-        {
-            closeGripper();
-            xReleased = false;
+        waitForStart();
+        armL.setPosition(.5);
+        armR.setPosition(.5);
+        while(opModeIsActive()) {
+            armR.setPosition(.66);
+            armL.setPosition(.12);
         }
-        if (!gamepad1.a)
-        {
-            xReleased = true;
-        }
-
 
 
 
@@ -63,15 +55,15 @@ public class test extends Hardware
     {
         if(closed )
         {
-            armR.setPosition(.28);
-            armL.setPosition(.30);
+            armR.setPosition(.66);
+            armL.setPosition(.12);
             closed = false;
         }
 
         else
         {
-            armR.setPosition(.66);
-            armL.setPosition(.12);
+            armR.setPosition(.28);
+            armL.setPosition(.30);
 
             closed = true;
         }

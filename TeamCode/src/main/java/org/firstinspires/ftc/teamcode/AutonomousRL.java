@@ -43,11 +43,9 @@ public class AutonomousRL extends Hardware
 
 
         omniDrive(.5,Hardware.backward);
-        time = System.currentTimeMillis();
-        while (System.currentTimeMillis() < time + 1400);
+        chersTimer(1400);
         omniDrive(.25,Hardware.right);
-        time = System.currentTimeMillis();
-        while(System.currentTimeMillis() < time + 2000);
+        chersTimer(2000);
         omniDrive(0,Hardware.forward);
     }
 }

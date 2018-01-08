@@ -20,7 +20,7 @@ public abstract class Hardware extends LinearOpMode
     public ColorSensor color;
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR, ElevatorMotor;
-    public Servo armL,armR,jewelArm;
+    public Servo armL,armR,armLUpper,armRUpper,jewelArm;
    // private CRServo elevator;
     public static final int right = 1;
     public static final int left = 2;
@@ -36,7 +36,7 @@ public abstract class Hardware extends LinearOpMode
     public static final int dLB = 8;
     public static final int turnC = 9;
     public static final int turnCC = 10;
-    private boolean closed = true, jewelArmDown = true;
+    private boolean closed = true,closedUpper = true, jewelArmDown = true;
     private double startTime = getRuntime();
 
     HardwareMap   hwMap =  null;
@@ -65,6 +65,8 @@ public abstract class Hardware extends LinearOpMode
             ElevatorMotor = hwMap.dcMotor.get("elevatormotor");
             armL = hwMap.servo.get("armL");
             armR = hwMap.servo.get("armR");
+            armLUpper = hwMap.servo.get("armLUpper");
+            armRUpper = hwMap.servo.get("armRUpper");
             color = hwMap.colorSensor.get("color");
             //elevator = hwMap.crservo.get("elevator");
             jewelArm = hardwareMap.servo.get("jewel");
@@ -117,8 +119,6 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void closeGripper(){
-//)
-
         //TEST CODE
         if(closed ){
             armR.setPosition(.28);
@@ -132,8 +132,20 @@ public abstract class Hardware extends LinearOpMode
             closed = true;
         }
     }
+    public void closeUpperGripper(){
 
+        if(closedUpper ){
+            armR.setPosition(.28);
+            armL.setPosition(.30);
+            closedUpper = false;
+        }
+        else  {
+            armR.setPosition(.66);
+            armL.setPosition(.12);
 
+            closedUpper = true;
+        }
+    }
 
 
     public void omniDrive(double power, int direction)

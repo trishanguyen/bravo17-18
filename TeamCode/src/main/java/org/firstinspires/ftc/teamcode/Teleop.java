@@ -71,7 +71,7 @@ public class Teleop extends Hardware {
 
 
             if (gamepad1.b && bReleased){
-                toggleColorSensorArm();
+                closeUpperGripper();
                 bReleased = false;
             }
             if (!gamepad1.b){
@@ -96,5 +96,6 @@ public class Teleop extends Hardware {
             idle();
         }
     }
+
 }
 
