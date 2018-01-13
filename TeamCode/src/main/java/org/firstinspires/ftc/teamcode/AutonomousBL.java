@@ -13,38 +13,41 @@ import static java.lang.System.currentTimeMillis;
  * Created by rootroot on 11/12/17.
  */
 @Autonomous( name = "AutoBL" )
-public class AutonomousBL extends Hardware
+public class AutonomousBL extends HardwareSad
 {
-
+    public Servo armL,armR,armLUpper,armRUpper,jewelArm;
     long time;
     @Override
     public void runOpMode()
     {
+        armL = hardwareMap.servo.get("armL");
+        armR = hardwareMap.servo.get("armR");
         waitForStart();
 
         init(hardwareMap);
 
-        long startTime = currentTimeMillis();
-        ColorSensor color = hardwareMap.colorSensor.get("colorSensor");
-        Servo jewelArm  = hardwareMap.servo.get("jewel");
-
+//        long startTime = currentTimeMillis();
+//        ColorSensor color = hardwareMap.colorSensor.get("colorSensor");
+//        Servo jewelArm  = hardwareMap.servo.get("jewel");
+        armR.setPosition(.56);
+        armL.setPosition(.35);
+        elevator(-1);
+        chersTimer(100);
+        elevator(0);
+/*
         while (currentTimeMillis() < startTime + 2000) ;
         if ( color.red() > color.blue()) //hits the blue if red is bigger
         {
-            omniDrive(.3,Hardware.backward,500);
+            sadDrive(.3,Hardware.backward,500);
         }
         else
         {
-            omniDrive(.3,Hardware.forward,500);
-        }
-        jewelArm.setPosition(1.2);
+            sadDrive(.3,Hardware.forward,500);
+        }*/
+//        jewelArm.setPosition(1.2);
 
-        omniDrive(.5,Hardware.backward);
-        time = System.currentTimeMillis();
-        while (System.currentTimeMillis() < time + 1400);
-        omniDrive(.25,Hardware.left);
-        time = System.currentTimeMillis();
-        while(System.currentTimeMillis() < time + 2000);
-        omniDrive(0,Hardware.forward);
+        sadDrive(.5,Hardware.backward,2400);
+        
+        sadDrive(0,Hardware.forward);
     }
 }

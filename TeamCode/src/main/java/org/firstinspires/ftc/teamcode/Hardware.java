@@ -303,6 +303,13 @@ public abstract class Hardware extends LinearOpMode
         MotorFR.setPower(0);
     }
 
+    public void sadDrive(double power, int direction){
+
+    }
+
+    public void sadDrive(double power, int direction, int time){
+
+    }
     public String detectColor(){
         if (color.red() > 100){
             return "red";

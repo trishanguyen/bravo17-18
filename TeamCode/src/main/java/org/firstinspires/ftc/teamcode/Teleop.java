@@ -5,24 +5,30 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import static java.lang.Math.abs;
 
 
 @TeleOp( name = "Teleop", group = "Linear Opmode" )
-public class Teleop extends Hardware {
+public class Teleop extends HardwareSad {
 
-
+    public Servo armL,armR,armLUpper,armRUpper,jewelArm;
 
     double power = 1;
     int direction = 0;
+    private boolean closed=false,closedUpper=false;
     boolean bReleased = true;
     boolean xReleased = true;
     @Override
     public void runOpMode() throws InterruptedException
     {
 
+        armL = hardwareMap.servo.get("armL");
+        armR = hardwareMap.servo.get("armR");
 
-
+        armLUpper = hardwareMap.servo.get("armLUpper");
+        armRUpper = hardwareMap.servo.get("armRUpper");
         init(hardwareMap);
         waitForStart();
 
@@ -36,7 +42,7 @@ public class Teleop extends Hardware {
             Use the a button to operate the grabbing mechanism
             Use the triggers to make the robot turn clockwise or counter clockwise
              */
-            if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0){
+            /*if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0){
                 direction = Hardware.dRF;
             } else if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0){
                 direction = Hardware.dLF;
@@ -44,7 +50,7 @@ public class Teleop extends Hardware {
                 direction = Hardware.dLB;
             } else if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0){
                 direction = Hardware.dRB;
-            } else if (gamepad1.right_stick_x > 0) {
+            } else*/ if (gamepad1.right_stick_x > 0) {
                 direction = Hardware.right;
             } else if (gamepad1.right_stick_x < 0) {
                 direction = Hardware.left;
@@ -52,17 +58,40 @@ public class Teleop extends Hardware {
                 direction = Hardware.forward;
             } else if (gamepad1.left_stick_y < 0){
                 direction = Hardware.backward;
-            } else if ( gamepad1.left_trigger > 0.1){
+            } /*else if ( gamepad1.left_trigger > 0.1){
                 direction = Hardware.turnC;
                 power = gamepad1.left_trigger;
             } else if ( gamepad1.right_trigger > 0.1){
                 direction = Hardware.turnCC;
                 power = gamepad1.right_trigger;
-            } else {
+            }*/ else {
                 direction = 0;
             }
+            if (gamepad1.dpad_up){
+                elevator(.5);
+            } else if (gamepad1.dpad_down) {
+                elevator(-.5);
+            } else {
+                elevator(0);
+            }
             if (gamepad1.a && xReleased){
-                closeGripper();
+                if(closed )
+                {
+                    armR.setPosition(.28);
+                    armL.setPosition(.70);
+                    telemetry.addData("Robot", "Closed");
+                    telemetry.update();
+                    closed = false;
+                }
+
+                else
+                {
+                    armR.setPosition(.56);
+                    armL.setPosition(.35);
+                    telemetry.addData("Robot", "Open");
+                    telemetry.update();
+                    closed = true;
+                }
                 xReleased = false;
             }
             if (!gamepad1.a){
@@ -71,7 +100,23 @@ public class Teleop extends Hardware {
 
 
             if (gamepad1.b && bReleased){
-                closeUpperGripper();
+                if(closedUpper )
+                {
+                    armRUpper.setPosition(.28);
+                    armLUpper.setPosition(.70);
+                    telemetry.addData("Robot", "Closed");
+                    telemetry.update();
+                    closedUpper = false;
+                }
+
+                else
+                {
+                    armRUpper.setPosition(.66);
+                    armLUpper.setPosition(.35);
+                    telemetry.addData("Robot", "Open");
+                    telemetry.update();
+                    closedUpper = true;
+                }
                 bReleased = false;
             }
             if (!gamepad1.b){
@@ -88,7 +133,7 @@ public class Teleop extends Hardware {
             } else if (abs(gamepad1.right_stick_x) > 1){
                 power = gamepad1.right_stick_x;
             }
-            omniDrive(power,direction);
+            sadDrive(power,direction);
 
 //            motorFL.setPower( gamepad1.left_stick_y );
 //            motorFR.setPower( gamepad1.right_stick_y );

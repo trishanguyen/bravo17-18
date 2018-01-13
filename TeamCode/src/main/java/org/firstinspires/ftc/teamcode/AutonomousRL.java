@@ -1,4 +1,3 @@
-//Red left
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -12,40 +11,42 @@ import static java.lang.System.currentTimeMillis;
  * Created by rootroot on 11/12/17.
  */
 @Autonomous( name = "AutoRL" )
-public class AutonomousRL extends Hardware
+public class AutonomousRL extends HardwareSad
 {
     long time;
+    public Servo armL,armR,armLUpper,armRUpper,jewelArm;
 
     @Override
     public void runOpMode()
     {
+        armL = hardwareMap.servo.get("armL");
+        armR = hardwareMap.servo.get("armR");
         waitForStart();
 
         init(hardwareMap);
 
+        armR.setPosition(.28);
+        armL.setPosition(.70);
 
         long startTime = currentTimeMillis();
         ColorSensor color = hardwareMap.colorSensor.get("colorSensor");
         Servo jewelArm  = hardwareMap.servo.get("jewel");
 
-        while (currentTimeMillis() < startTime + 2000) ;
+        chersTimer(2000);
         if ( color.red() < color.blue())
         {
-            omniDrive(.3,Hardware.forward,500);
+            sadDrive(.3,Hardware.forward,500);
         }
         else
         {
-            omniDrive(.3,Hardware.backward,500);
+            sadDrive(.3,Hardware.backward,500);
         }
         jewelArm.setPosition(1.2);
 
 
-
-
-        omniDrive(.5,Hardware.backward);
-        chersTimer(1400);
-        omniDrive(.25,Hardware.right);
-        chersTimer(2000);
-        omniDrive(0,Hardware.forward);
+        sadDrive(.5,Hardware.backward,1300);
+        sadDrive(.25,Hardware.right,400);
+        sadDrive(.25,Hardware.backward,2000);
+        sadDrive(0,Hardware.forward);
     }
 }
