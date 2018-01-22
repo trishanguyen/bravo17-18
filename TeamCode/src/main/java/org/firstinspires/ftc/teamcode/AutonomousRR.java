@@ -1,89 +1,53 @@
-//Red left
+//Red Right
+//INCOMPLETE FIX VALUES
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import static java.lang.System.currentTimeMillis;
 
-
+/**
+ * Created by rootroot on 11/12/17.
+ */
 @Autonomous( name = "AutoRR" )
 public class AutonomousRR extends HardwareSad
 {
-    long time;
-    
-    double DRIVE_POWER = 1.0;
-    private ElapsedTime period  = new ElapsedTime();
-
-
-//    public ColorSensor color;
     public Servo armL,armR,armLUpper,armRUpper,jewelArm;
+    long time;
     @Override
     public void runOpMode()
     {
         armL = hardwareMap.servo.get("armL");
         armR = hardwareMap.servo.get("armR");
-        init();
-//        jewelArm  = hardwareMap.servo.get("jewel");
-
-//        color = hardwareMap.colorSensor.get("colorSensor");
+        init(hardwareMap);
         waitForStart();
         armR.setPosition(.28);
         armL.setPosition(.70);
+        ColorSensor color = hardwareMap.colorSensor.get("colorSensor");
+        jewelArm  = hardwareMap.servo.get("jewel");
+        jewelArm.setPosition(.1);
 
-//        jewelArm.setPosition(.5);
-//        jewelArm.setPosition(.25);
-//        jewelArm.setPosition(0);
-//        if(detectColor().equals("red"))
-// {
-//            omniDrive(.2,Hardware.right,100);
-//        } else if (detectColor().equals("blue"))
-// {
-//            omniDrive(.2,Hardware.left,100);
-//        } else if (detectColor().equals("Color not found")){
-
-//
-//        }
-        sadDrive(.5,Hardware.backward,1300);
-        sadDrive(.25,Hardware.left,400);
-        sadDrive(1,Hardware.backward,100);
-        sadDrive(0,Hardware.forward);
-
-
-
-//        omniDrive(.5, Hardware.backward, 1300);
-//        omniDrive(.25, Hardware.left,300);
-//        long startTime = currentTimeMillis();
-//
-//        while (currentTimeMillis() < startTime + 2000) ;
-        /*if ( color.red() < color.blue() )
+        chersTimer(2000);
+        if ( color.red() > color.blue()) //hits the blue if red is bigger
         {
-            sadDrive(.3,Hardware.forward,500);
+            sadDrive(.3,Hardware.forward,200);
         }
         else
         {
-            sadDrive(.3,Hardware.backward,500);
+            sadDrive(.3,Hardware.backward,200);
         }
-        jewelArm.setPosition(1.2);
-        sadDrive(.5,Hardware.backward,1300);
-        sadDrive(.25,Hardware.right,300);
-        sadDrive(.25,Hardware.backward,100);
-        sadDrive(0,Hardware.forward);
-*/
-
-      /*  while(opModeIsActive())
-        {
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-
-            telemetry.update();
-        }
-*/    }
-
-
+        jewelArm.setPosition(.8);
+        chersTimer(500);
+        sadDrive(.5,Hardware.backward,2500);
+    }
 }
