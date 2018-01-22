@@ -16,7 +16,7 @@ public abstract class HardwareSad extends LinearOpMode
 
     public DcMotor MotorFL, MotorBL, MotorFR, MotorBR, ElevatorMotor;
 
-   // private CRServo elevator;
+   //private CRServo elevator;
     public static final int right = 1;
     public static final int left = 2;
     public static final int forward = 3;
@@ -74,6 +74,7 @@ public abstract class HardwareSad extends LinearOpMode
     }
     public void elevator(double power){
         ElevatorMotor.setPower(power);
+
     }
 
 

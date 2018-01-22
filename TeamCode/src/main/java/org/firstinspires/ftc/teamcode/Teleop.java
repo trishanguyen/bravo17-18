@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import static java.lang.Math.abs;
@@ -13,8 +14,8 @@ import static java.lang.Math.abs;
 @TeleOp( name = "Teleop", group = "Linear Opmode" )
 public class Teleop extends HardwareSad {
 
-    public Servo armL,armR,armLUpper,armRUpper,jewelArm;
-
+    private Servo armL,armR,armLUpper,armRUpper,jewelArm;
+    private CRServo elevatorRight,elevatorLeft;
     double power = 1;
     int direction = 0;
     private boolean closed=false,closedUpper=false;
@@ -26,14 +27,18 @@ public class Teleop extends HardwareSad {
 
         armL = hardwareMap.servo.get("armL");
         armR = hardwareMap.servo.get("armR");
+        jewelArm = hardwareMap.servo.get("jewel");
+//        elevatorRight = hardwareMap.crservo.get("rightservo");
+//        elevatorLeft = hardwareMap.crservo.get("leftservo");
 
-        armLUpper = hardwareMap.servo.get("armLUpper");
-        armRUpper = hardwareMap.servo.get("armRUpper");
+//        armLUpper = hardwareMap.servo.get("armLUpper");
+//        armRUpper = hardwareMap.servo.get("armRUpper");
         init(hardwareMap);
         waitForStart();
 
         while( opModeIsActive() )
         {
+            jewelArm.setPosition(.8);
             /*
             Controls:
             Use the right stick to make the robot move left or right
@@ -68,9 +73,9 @@ public class Teleop extends HardwareSad {
                 direction = 0;
             }
             if (gamepad1.dpad_up){
-                elevator(.5);
+                elevator(1) ;
             } else if (gamepad1.dpad_down) {
-                elevator(-.5);
+                elevator(-1);
             } else {
                 elevator(0);
             }
@@ -98,27 +103,27 @@ public class Teleop extends HardwareSad {
                 xReleased = true;
             }
 
-
-            if (gamepad1.b && bReleased){
-                if(closedUpper )
-                {
-                    armRUpper.setPosition(.28);
-                    armLUpper.setPosition(.70);
-                    telemetry.addData("Robot", "Closed");
-                    telemetry.update();
-                    closedUpper = false;
-                }
-
-                else
-                {
-                    armRUpper.setPosition(.66);
-                    armLUpper.setPosition(.35);
-                    telemetry.addData("Robot", "Open");
-                    telemetry.update();
-                    closedUpper = true;
-                }
-                bReleased = false;
-            }
+//
+//            if (gamepad1.b && bReleased){
+//                if(closedUpper )
+//                {
+//                    armRUpper.setPosition(.28);
+//                    armLUpper.setPosition(.70);
+//                    telemetry.addData("Robot", "Closed");
+//                    telemetry.update();
+//                    closedUpper = false;
+//                }
+//
+//                else
+//                {
+//                    armRUpper.setPosition(.66);
+//                    armLUpper.setPosition(.35);
+//                    telemetry.addData("Robot", "Open");
+//                    telemetry.update();
+//                    closedUpper = true;
+//                }
+//                bReleased = false;
+//            }
             if (!gamepad1.b){
                 bReleased = true;
             }
@@ -133,8 +138,10 @@ public class Teleop extends HardwareSad {
             } else if (abs(gamepad1.right_stick_x) > 1){
                 power = gamepad1.right_stick_x;
             }
+            if (gamepad1.right_trigger > 0)
+            sadDrive(power/2.0,direction);
+            else
             sadDrive(power,direction);
-
 //            motorFL.setPower( gamepad1.left_stick_y );
 //            motorFR.setPower( gamepad1.right_stick_y );
 
